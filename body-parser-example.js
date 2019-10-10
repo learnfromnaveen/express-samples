@@ -19,7 +19,7 @@ app.get("/", (request, response) => {
 });
 
 
-// POST http://localhost:8080/api/users
+// POST http://localhost:3000/api/users
 // parameters sent with 
 app.post('/api/users', function(request, response) {
     var user_id = request.body.id;
