@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Login</title>
+  </head>
+  <body>
+    <form method="POST" action="/login">
+      <div>
+        <%if(isInvalid) {%>
+          <%-include('error', {}); %>
+        <%}%>
+        username: <input type="text" name="username" value='<%=username%>'>&nbsp; password:
+        <input type="password" name="password"/>&nbsp;
+        <button>
+          Login
+        </button>
+      </div>
+    </form>
+  </body>
+</html>

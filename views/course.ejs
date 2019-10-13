@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Course</title>
+  </head>
+  <body>
+    <form method="POST" action="/course">
+      <div class="label">
+        Title:
+      </div>
+      <div>
+        <input type="text" name="title" value="<%=title%>" />
+      </div>
+      <div class="label">
+        Short description:
+      </div>
+      <div>
+        <input
+          type="text"
+          name="shortDescription"
+          value="<%=shortDescription%>"
+        />
+      </div>
+      <div class="label">
+        Content:
+      </div>
+      <div>
+        <input type="text" name="content" value="<%=content%>" />
+      </div>
+      <div class="controls">
+        <button>Save</button>
+      </div>
+    </form>
+  </body>
+</html>
