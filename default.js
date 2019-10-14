@@ -14,6 +14,9 @@ app.set('view engine', 'ejs');
 app.set("views", viewsPath); 
 app.set("view options",  { layout: false });
 
+app.use("/styles",express.static('styles'))
+// app.use(express.static('files'))
+
 app.use(bodyParser({extended: true}));
 
 app.get("/", (request, response) => { 
@@ -51,9 +54,13 @@ app.get("/course", (request, response)=>{
 
 app.post("/course", (request, response)=>{
 
-    var course  =  JSON.parse(JSON.stringify(request.body));
+    //var course  =  JSON.parse(JSON.stringify(request.body));
 
-    createCourse(URL, "courses", "course", course, response);
+    //createCourse(URL, "courses", "course", course, response);
+    response.render('shared/success', { data: {
+        message: 'Course was created successfully...'
+     }
+ });
     
 })
 
@@ -63,7 +70,7 @@ async function createCourse(URL, database, collection, course, response){
         var server = await mongoHelper.connect(URL);
         var result = await mongoHelper.create(server, database, collection, course);
         console.log('record inserted successfully');
-        response.render('success');
+        response.render('shared/success');
 
       } catch (error) {
         console.log(error);
@@ -75,5 +82,26 @@ async function createCourse(URL, database, collection, course, response){
       }
 
 };
+
+var pageData = { 
+    navLinks : [
+        { id: 1, text: 'Home', path: '/home'}, 
+        { id: 2, text: 'About', path: '/about'}, 
+        { id: 3, text: 'Contact', path: '/contactus'}, 
+        { id: 4, text: 'Login', path: '/secured/login'}, 
+
+    ]
+};
+
+
+app.get("/bootstrap", (request, response)=>{
+  
+    response.render('bootstrap-demo/home', pageData);
+})
+
+app.get("/secured/login", (request, response)=>{
+  
+    response.render('bootstrap-demo/login', pageData);
+})
 
 app.listen(3000);
