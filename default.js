@@ -10,6 +10,18 @@ var MongoHelper = require('./utilities/MongoHelper').MongoHelper;
 var app = express();  
 var viewsPath = __dirname + "/views"; 
 
+/*
+ mongoose settings  
+*/
+
+var mongoose  = require('mongoose');  
+var Schema = require('./views/bootstrap-demo/mongoose-utils/schemas/DBSchema')
+//var URL = 'mongodb+srv://nodeuser:nodeuser1234@cluster0-dj9aw.mongodb.net/admin?retryWrites=true&w=majority';
+var URL = "mongodb://localhost:27017/mydb";
+mongoose.connect(URL);
+
+var User  = mongoose.model('User', Schema.User);
+
 app.set('view engine', 'ejs');  
 app.set("views", viewsPath); 
 app.set("view options",  { layout: false });
@@ -89,7 +101,7 @@ var pageData = {
         { id: 2, text: 'About', path: '/about'}, 
         { id: 3, text: 'Contact', path: '/contactus'}, 
         { id: 4, text: 'Login', path: '/secured/login'}, 
-
+        { id: 5, text: 'Register New User', path: '/secured/register'}, 
     ]
 };
 
@@ -102,6 +114,37 @@ app.get("/bootstrap", (request, response)=>{
 app.get("/secured/login", (request, response)=>{
   
     response.render('bootstrap-demo/login', pageData);
-})
+});
+
+app.get("/secured/register", (request, response)=>{
+  
+    response.render('bootstrap-demo/register', pageData);
+});
+
+
+app.post("/secured/register", (request, response)=>{
+
+    //1. get the posted data  
+    var newUser = new User({
+        firstName: 'Vivaan', 
+        lastName: 'Naveen',  
+        email: 'Vivaan@gmail.com',  
+        username:'vnaveen', 
+        password: 'viv#1234'
+    });
+
+    newUser.save((error, Users)=>{
+        if(error){
+            console.log(error); 
+        }
+        else  { 
+            pageData["isRegistrationSuccess"]  = true;
+            response.render('bootstrap-demo/login', pageData);
+        }
+    });
+    //2. Save the posted data to the database 
+   
+});
+
 
 app.listen(3000);
