@@ -124,13 +124,19 @@ app.get("/secured/register", (request, response)=>{
 
 app.post("/secured/register", (request, response)=>{
 
+    //check id body-parser is installed and imported  
+    var user = request.body; 
+
+    console.log(user);
+    
     //1. get the posted data  
     var newUser = new User({
-        firstName: 'Vivaan', 
-        lastName: 'Naveen',  
-        email: 'Vivaan@gmail.com',  
-        username:'vnaveen', 
-        password: 'viv#1234'
+        firstName: user.firstName, 
+        lastName: user.lastName,  
+        email: user.email,  
+        password: user.password,  
+        gender: user.gender,
+        phone: user.phone
     });
 
     newUser.save((error, Users)=>{
